@@ -71,7 +71,7 @@ class VaceWanModel(WanModel):
     def __init__(self,
                  vace_layers=None,
                  vace_in_dim=None,
-                 model_type='t2v',
+                 model_type='vace',
                  patch_size=(1, 2, 2),
                  text_len=512,
                  in_dim=16,
