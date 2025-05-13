@@ -42,11 +42,11 @@ EXAMPLE_PROMPT = {
                 "examples/flf2v_input_last_frame.png",
     },
     "vace-1.3B": {
-        "src_ref_images": './bag.jpg,./heben.png',
+        "src_ref_images": 'examples/bag.jpg,examples/heben.png',
         "prompt": "优雅的女士在精品店仔细挑选包包，她身穿一袭黑色修身连衣裙，搭配珍珠项链，展现出成熟女性的魅力。手中拿着一款复古风格的棕色皮质半月形手提包，正细致地观察其工艺与质地。店内灯光柔和，木质装潢营造出温馨而高级的氛围。中景，侧拍捕捉女士挑选瞬间，展现其品味与气质。"
     },
     "vace-14B": {
-        "src_ref_images": './bag.jpg,./heben.png',
+        "src_ref_images": 'examples/bag.jpg,examples/heben.png',
         "prompt": "优雅的女士在精品店仔细挑选包包，她身穿一袭黑色修身连衣裙，搭配珍珠项链，展现出成熟女性的魅力。手中拿着一款复古风格的棕色皮质半月形手提包，正细致地观察其工艺与质地。店内灯光柔和，木质装潢营造出温馨而高级的氛围。中景，侧拍捕捉女士挑选瞬间，展现其品味与气质。"
     }
 }
@@ -74,7 +74,7 @@ def _validate_args(args):
         elif "flf2v" in args.task:
             args.sample_shift = 16
         elif "vace" in args.task:
-            args.sample_shift = 3.0
+            args.sample_shift = 8.0
 
 
     # The default number of frames are 1 for text-to-image tasks and 81 for other tasks.
@@ -490,10 +490,10 @@ def generate(args):
         )
     elif "vace" in args.task:
         if args.prompt is None:
-            args.prompt = EXAMPLE_PROMPT[args.model_name]["prompt"]
-            args.src_video = EXAMPLE_PROMPT[args.model_name].get("src_video", None)
-            args.src_mask = EXAMPLE_PROMPT[args.model_name].get("src_mask", None)
-            args.src_ref_images = EXAMPLE_PROMPT[args.model_name].get("src_ref_images", None)
+            args.prompt = EXAMPLE_PROMPT[args.task]["prompt"]
+            args.src_video = EXAMPLE_PROMPT[args.task].get("src_video", None)
+            args.src_mask = EXAMPLE_PROMPT[args.task].get("src_mask", None)
+            args.src_ref_images = EXAMPLE_PROMPT[args.task].get("src_ref_images", None)
 
         logging.info(f"Input prompt: {args.prompt}")
         if args.use_prompt_extend and args.use_prompt_extend != 'plain':
