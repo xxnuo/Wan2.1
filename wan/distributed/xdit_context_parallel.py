@@ -110,7 +110,7 @@ def usp_dit_forward(
     t:              [B].
     context:        A list of text embeddings each with shape [L, C].
     """
-    if self.model_type != 'vace':
+    if self.model_type == 'i2v':
         assert clip_fea is not None and y is not None
     # params
     device = self.patch_embedding.weight.device
