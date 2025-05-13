@@ -87,9 +87,10 @@ def usp_dit_forward_vace(
         c, get_sequence_parallel_world_size(),
         dim=1)[get_sequence_parallel_rank()]
 
+    hints = []
     for block in self.vace_blocks:
-        c = block(c, **new_kwargs)
-    hints = torch.unbind(c)[:-1]
+        c, c_skip = block(c, **new_kwargs)
+        hints.append(c_skip)
     return hints
 
 
