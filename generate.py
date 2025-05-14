@@ -505,7 +505,7 @@ def generate(args):
             args.prompt = input_prompt[0]
             logging.info(f"Extended prompt: {args.prompt}")
 
-        logging.info("Creating WanT2V pipeline.")
+        logging.info("Creating VACE pipeline.")
         wan_vace = wan.WanVace(
             config=cfg,
             checkpoint_dir=args.ckpt_dir,
