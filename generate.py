@@ -61,9 +61,7 @@ def _validate_args(args):
     # The default sampling steps are 40 for image-to-video tasks and 50 for text-to-video tasks.
     if args.sample_steps is None:
         args.sample_steps = 50
-        if "vace" in args.task:
-            args.sample_steps = 25
-        elif "i2v" in args.task:
+        if "i2v" in args.task:
             args.sample_steps = 40
 
 
@@ -71,10 +69,8 @@ def _validate_args(args):
         args.sample_shift = 5.0
         if "i2v" in args.task and args.size in ["832*480", "480*832"]:
             args.sample_shift = 3.0
-        elif "flf2v" in args.task:
+        elif "flf2v" in args.task or "vace" in args.task:
             args.sample_shift = 16
-        elif "vace" in args.task:
-            args.sample_shift = 8.0
 
 
     # The default number of frames are 1 for text-to-image tasks and 81 for other tasks.
