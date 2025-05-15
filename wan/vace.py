@@ -318,7 +318,7 @@ class WanVace(WanT2V):
 
         if n_prompt == "":
             n_prompt = self.sample_neg_prompt
-        seed = seed if seed >= 0 else random.randint(0, sys.maxsize)
+        seed = seed if seed >= 0 else random.randint(0, 1e7)
         seed_g = torch.Generator(device=self.device)
         seed_g.manual_seed(seed)
 
@@ -581,7 +581,7 @@ class WanVaceMP(WanVace):
 
                 if n_prompt == "":
                     n_prompt = sample_neg_prompt
-                seed = seed if seed >= 0 else random.randint(0, sys.maxsize)
+                seed = seed if seed >= 0 else random.randint(0, 1e7)
                 seed_g = torch.Generator(device=gpu)
                 seed_g.manual_seed(seed)
 
