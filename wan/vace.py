@@ -1,28 +1,36 @@
 # Copyright 2024-2025 The Alibaba Wan Team Authors. All rights reserved.
-import os
-import sys
 import gc
-import math
-import time
-import random
-import types
 import logging
+import math
+import os
+import random
+import sys
+import time
 import traceback
+import types
 from contextlib import contextmanager
 from functools import partial
 
-from PIL import Image
-import torchvision.transforms.functional as TF
 import torch
-import torch.nn.functional as F
 import torch.cuda.amp as amp
 import torch.distributed as dist
 import torch.multiprocessing as mp
+import torch.nn.functional as F
+import torchvision.transforms.functional as TF
+from PIL import Image
 from tqdm import tqdm
 
-from .text2video import (WanT2V, T5EncoderModel, WanVAE, shard_model, FlowDPMSolverMultistepScheduler,
-                               get_sampling_sigmas, retrieve_timesteps, FlowUniPCMultistepScheduler)
 from .modules.vace_model import VaceWanModel
+from .text2video import (
+    FlowDPMSolverMultistepScheduler,
+    FlowUniPCMultistepScheduler,
+    T5EncoderModel,
+    WanT2V,
+    WanVAE,
+    get_sampling_sigmas,
+    retrieve_timesteps,
+    shard_model,
+)
 from .utils.vace_processor import VaceVideoProcessor
 
 
@@ -87,12 +95,13 @@ class WanVace(WanT2V):
         self.model.eval().requires_grad_(False)
 
         if use_usp:
-            from xfuser.core.distributed import \
-                get_sequence_parallel_world_size
+            from xfuser.core.distributed import get_sequence_parallel_world_size
 
-            from .distributed.xdit_context_parallel import (usp_attn_forward,
-                                                            usp_dit_forward,
-                                                            usp_dit_forward_vace)
+            from .distributed.xdit_context_parallel import (
+                usp_attn_forward,
+                usp_dit_forward,
+                usp_dit_forward_vace,
+            )
             for block in self.model.blocks:
                 block.self_attn.forward = types.MethodType(
                     usp_attn_forward, block.self_attn)
@@ -514,8 +523,10 @@ class WanVaceMP(WanVace):
                 world_size=world_size
             )
 
-            from xfuser.core.distributed import (initialize_model_parallel,
-                                                 init_distributed_environment)
+            from xfuser.core.distributed import (
+                init_distributed_environment,
+                initialize_model_parallel,
+            )
             init_distributed_environment(
                 rank=dist.get_rank(), world_size=dist.get_world_size())
 
@@ -547,9 +558,12 @@ class WanVaceMP(WanVace):
 
             if self.use_usp:
                 from xfuser.core.distributed import get_sequence_parallel_world_size
-                from .distributed.xdit_context_parallel import (usp_attn_forward,
-                                                                usp_dit_forward,
-                                                                usp_dit_forward_vace)
+
+                from .distributed.xdit_context_parallel import (
+                    usp_attn_forward,
+                    usp_dit_forward,
+                    usp_dit_forward_vace,
+                )
                 for block in model.blocks:
                     block.self_attn.forward = types.MethodType(
                         usp_attn_forward, block.self_attn)

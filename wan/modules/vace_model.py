@@ -3,7 +3,8 @@ import torch
 import torch.cuda.amp as amp
 import torch.nn as nn
 from diffusers.configuration_utils import register_to_config
-from .model import WanModel, WanAttentionBlock, sinusoidal_embedding_1d
+
+from .model import WanAttentionBlock, WanModel, sinusoidal_embedding_1d
 
 
 class VaceWanAttentionBlock(WanAttentionBlock):

@@ -2,18 +2,20 @@
 # Copyright (c) Alibaba, Inc. and its affiliates.
 
 import argparse
+import datetime
 import os
 import sys
-import datetime
+
 import imageio
 import numpy as np
 import torch
+
 import gradio as gr
 
 sys.path.insert(0, os.path.sep.join(os.path.realpath(__file__).split(os.path.sep)[:-2]))
 import wan
 from wan import WanVace, WanVaceMP
-from wan.configs import WAN_CONFIGS, SIZE_CONFIGS
+from wan.configs import SIZE_CONFIGS, WAN_CONFIGS
 
 
 class FixedSizeQueue:

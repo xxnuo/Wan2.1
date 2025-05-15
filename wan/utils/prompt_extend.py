@@ -7,7 +7,7 @@ import sys
 import tempfile
 from dataclasses import dataclass
 from http import HTTPStatus
-from typing import Optional, Union, List
+from typing import List, Optional, Union
 
 import dashscope
 import torch
@@ -393,8 +393,11 @@ class QwenPromptExpander(PromptExpander):
 
         if self.is_vl:
             # default: Load the model on the available device(s)
-            from transformers import (AutoProcessor, AutoTokenizer,
-                                      Qwen2_5_VLForConditionalGeneration)
+            from transformers import (
+                AutoProcessor,
+                AutoTokenizer,
+                Qwen2_5_VLForConditionalGeneration,
+            )
             try:
                 from .qwen_vl_utils import process_vision_info
             except:

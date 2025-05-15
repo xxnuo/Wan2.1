@@ -1,21 +1,23 @@
 # Copyright 2024-2025 The Alibaba Wan Team Authors. All rights reserved.
 import argparse
-from datetime import datetime
 import logging
 import os
 import sys
 import warnings
+from datetime import datetime
 
 warnings.filterwarnings('ignore')
 
-import torch, random
+import random
+
+import torch
 import torch.distributed as dist
 from PIL import Image
 
 import wan
-from wan.configs import WAN_CONFIGS, SIZE_CONFIGS, MAX_AREA_CONFIGS, SUPPORTED_SIZES
+from wan.configs import MAX_AREA_CONFIGS, SIZE_CONFIGS, SUPPORTED_SIZES, WAN_CONFIGS
 from wan.utils.prompt_extend import DashScopePromptExpander, QwenPromptExpander
-from wan.utils.utils import cache_video, cache_image, str2bool
+from wan.utils.utils import cache_image, cache_video, str2bool
 
 EXAMPLE_PROMPT = {
     "t2v-1.3B": {
@@ -281,8 +283,10 @@ def generate(args):
 
     if args.ulysses_size > 1 or args.ring_size > 1:
         assert args.ulysses_size * args.ring_size == world_size, f"The number of ulysses_size and ring_size should be equal to the world size."
-        from xfuser.core.distributed import (initialize_model_parallel,
-                                             init_distributed_environment)
+        from xfuser.core.distributed import (
+            init_distributed_environment,
+            initialize_model_parallel,
+        )
         init_distributed_environment(
             rank=dist.get_rank(), world_size=dist.get_world_size())
 
@@ -485,6 +489,7 @@ def generate(args):
             offload_model=args.offload_model
         )
     elif "vace" in args.task:
+        torch.cuda.memory._record_memory_history(max_entries=1000000)
         if args.prompt is None:
             args.prompt = EXAMPLE_PROMPT[args.task]["prompt"]
             args.src_video = EXAMPLE_PROMPT[args.task].get("src_video", None)
@@ -564,6 +569,8 @@ def generate(args):
                 nrow=1,
                 normalize=True,
                 value_range=(-1, 1))
+    torch.cuda.memory._record_memory_history(enabled=None)
+    torch.cuda.memory._dump_snapshot(f"memory.pickle")
     logging.info("Finished.")
 
 

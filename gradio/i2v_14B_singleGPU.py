@@ -1,8 +1,8 @@
 # Copyright 2024-2025 The Alibaba Wan Team Authors. All rights reserved.
 import argparse
 import gc
-import os.path as osp
 import os
+import os.path as osp
 import sys
 import warnings
 

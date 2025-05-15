@@ -1,9 +1,9 @@
 # Copyright 2024-2025 The Alibaba Wan Team Authors. All rights reserved.
 import numpy as np
-from PIL import Image
 import torch
 import torch.nn.functional as F
 import torchvision.transforms.functional as TF
+from PIL import Image
 
 
 class VaceImageProcessor(object):
