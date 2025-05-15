@@ -200,8 +200,7 @@ class WanI2V:
         seed_g = torch.Generator(device=self.device)
         seed_g.manual_seed(seed)
         noise = torch.randn(
-            16,
-            (F - 1) // 4 + 1,
+            16, (F - 1) // 4 + 1,
             lat_h,
             lat_w,
             dtype=torch.float32,

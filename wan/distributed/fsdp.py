@@ -33,6 +33,7 @@ def shard_model(
         sync_module_states=sync_module_states)
     return model
 
+
 def free_model(model):
     for m in model.modules():
         if isinstance(m, FSDP):
