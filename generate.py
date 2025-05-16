@@ -497,7 +497,6 @@ def generate(args):
             seed=args.base_seed,
             offload_model=args.offload_model)
     elif "vace" in args.task:
-        torch.cuda.memory._record_memory_history(max_entries=1000000)
         if args.prompt is None:
             args.prompt = EXAMPLE_PROMPT[args.task]["prompt"]
             args.src_video = EXAMPLE_PROMPT[args.task].get("src_video", None)
@@ -580,8 +579,6 @@ def generate(args):
                 nrow=1,
                 normalize=True,
                 value_range=(-1, 1))
-    torch.cuda.memory._record_memory_history(enabled=None)
-    torch.cuda.memory._dump_snapshot(f"memory.pickle")
     logging.info("Finished.")
 
 
