@@ -40,7 +40,10 @@ class RMS_norm(nn.Module):
 
     def __init__(self, dim, channel_first=True, images=True, bias=False):
         super().__init__()
-        broadcastable_dims = (1, 1, 1) if not images else (1, 1)
+        if not images:
+            broadcastable_dims = (1, 1, 1)
+        else:
+            broadcastable_dims = (1, 1)
         shape = (dim, *broadcastable_dims) if channel_first else (dim,)
 
         self.channel_first = channel_first

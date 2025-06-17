@@ -75,7 +75,9 @@ class SelfAttention(nn.Module):
         """
         x:   [B, L, C].
         """
-        b, s, c, n, d = *x.size(), self.num_heads, self.head_dim
+        x_size = x.size()
+        b, s, c = x_size[0], x_size[1], x_size[2]
+        n, d = self.num_heads, self.head_dim
 
         # compute query, key, value
         q, k, v = self.to_qkv(x).view(b, s, 3, n, d).unbind(2)
@@ -187,7 +189,9 @@ class AttentionPool(nn.Module):
         """
         x:  [B, L, C].
         """
-        b, s, c, n, d = *x.size(), self.num_heads, self.head_dim
+        x_size = x.size()
+        b, s, c = x_size[0], x_size[1], x_size[2]
+        n, d = self.num_heads, self.head_dim
 
         # compute query, key, value
         q = self.to_q(self.cls_embedding).view(1, 1, n, d).expand(b, -1, -1, -1)
