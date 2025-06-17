@@ -186,7 +186,9 @@ def usp_attn_forward(self,
                      grid_sizes,
                      freqs,
                      dtype=torch.bfloat16):
-    b, s, n, d = *x.shape[:2], self.num_heads, self.head_dim
+    x_shape = x.shape
+    b, s = x_shape[0], x_shape[1]
+    n, d = self.num_heads, self.head_dim
     half_dtypes = (torch.float16, torch.bfloat16)
 
     def half(x):

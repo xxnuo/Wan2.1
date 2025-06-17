@@ -28,7 +28,9 @@ class SelfAttention(nn.Module):
         """
         x:   [B, L, C].
         """
-        b, s, c, n, d = *x.size(), self.num_heads, self.head_dim
+        x_size = x.size()
+        b, s, c = x_size[0], x_size[1], x_size[2]
+        n, d = self.num_heads, self.head_dim
 
         # compute query, key, value
         q = self.q(x).reshape(b, s, n, d).permute(0, 2, 1, 3)
