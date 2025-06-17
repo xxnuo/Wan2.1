@@ -179,17 +179,17 @@ def _parse_args():
 if __name__ == '__main__':
     args = _parse_args()
 
-    print("Step1: Init prompt_expander...", end='', flush=True)
-    if args.prompt_extend_method == "dashscope":
-        prompt_expander = DashScopePromptExpander(
-            model_name=args.prompt_extend_model, is_vl=False)
-    elif args.prompt_extend_method == "local_qwen":
-        prompt_expander = QwenPromptExpander(
-            model_name=args.prompt_extend_model, is_vl=False, device=0)
-    else:
-        raise NotImplementedError(
-            f"Unsupport prompt_extend_method: {args.prompt_extend_method}")
-    print("done", flush=True)
+    # print("Step1: Init prompt_expander...", end='', flush=True)
+    # if args.prompt_extend_method == "dashscope":
+    #     prompt_expander = DashScopePromptExpander(
+    #         model_name=args.prompt_extend_model, is_vl=False)
+    # elif args.prompt_extend_method == "local_qwen":
+    #     prompt_expander = QwenPromptExpander(
+    #         model_name=args.prompt_extend_model, is_vl=False, device=0)
+    # else:
+    #     raise NotImplementedError(
+    #         f"Unsupport prompt_extend_method: {args.prompt_extend_method}")
+    # print("done", flush=True)
 
     print("Step2: Init 1.3B t2v model...", end='', flush=True)
     cfg = WAN_CONFIGS['t2v-1.3B']
